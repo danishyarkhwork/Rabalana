@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/layouts/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,10 +35,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="/assets/css/tailwind.css" />
       </head>
       <body>
-        <header>
-          {/* Your header content */}
-          <h1 className="bg-dark">My Next.js 14 App</h1>
-        </header>
+        <Header />
         <main>{children}</main>
         <footer>
           {/* Your footer content */}
