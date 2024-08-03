@@ -248,7 +248,7 @@ const Footer: React.FC = () => {
       </div>
       {/*end container*/}
 
-      <div className="py-[30px] px-0 border-t border-slate-800">
+      <div className="py-3 px-0 border-t border-slate-800">
         <div className="container relative text-center mx-auto">
           <div className="grid md:grid-cols-2 items-center">
             <div className="md:text-start text-center">

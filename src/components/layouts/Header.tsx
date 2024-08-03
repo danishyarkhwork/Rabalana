@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -9,6 +9,18 @@ const Header: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  useEffect(() => {
+    console.log("Dropdown state:", dropdownOpen);
+    if (dropdownOpen) {
+      const dropdownElement = document.querySelector(".dropdown-menu");
+      console.log("Dropdown element:", dropdownElement);
+      if (dropdownElement) {
+        // Ensure dropdown initialization
+        // Example: dropdownElement.classList.add("show");
+      }
+    }
+  }, [dropdownOpen]);
 
   return (
     <nav id="topnav" className="defaultscroll is-sticky">
@@ -24,18 +36,18 @@ const Header: React.FC = () => {
           />
           <div className="sm:block hidden">
             <Image
-              src="/assets/images/logo-dark.png"
+              src="/assets/images/logo-light.png"
               className="inline-block dark:hidden"
               alt="Logo Dark"
-              width={100}
-              height={40}
+              width={130}
+              height={60}
             />
             <Image
               src="/assets/images/logo-light.png"
               className="hidden dark:inline-block"
               alt="Logo Light"
-              width={100}
-              height={40}
+              width={130}
+              height={60}
             />
           </div>
         </Link>
@@ -60,7 +72,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* Login button Start */}
-        <ul className="buy-button list-none mb-0 flex items-center">
+        <ul className="buy-button list-none mb-0 flex items-center mt-5">
           <li className="inline-block mb-0">
             <div className="form-icon relative">
               <i className="uil uil-search text-lg absolute top-1/2 -translate-y-1/2 start-3"></i>
@@ -72,15 +84,6 @@ const Header: React.FC = () => {
                 placeholder="Search..."
               />
             </div>
-          </li>
-
-          <li className="inline-block ps-1 mb-0">
-            <button
-              id="connectWallet"
-              className="size-9 inline-flex items-center justify-center tracking-wide align-middle duration-500 text-base text-center rounded-full bg-indigo-600 hover:bg-indigo-700 border border-indigo-600 hover:border-indigo-700 text-white"
-            >
-              <i className="uil uil-wallet"></i>
-            </button>
           </li>
 
           <li className="dropdown inline-block relative ps-1">
@@ -185,167 +188,21 @@ const Header: React.FC = () => {
               </Link>
             </li>
 
-            <li className="has-submenu parent-parent-menu-item">
-              <button className="sub-menu-item">
-                NFTs
-                <span className="menu-arrow"></span>
-              </button>
-              <ul className="submenu">
-                <li>
-                  <Link href="/nft-explore" className="sub-menu-item">
-                    Explore
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/nft-auction" className="sub-menu-item">
-                    Auction
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/nft-collection" className="sub-menu-item">
-                    Collections
-                  </Link>
-                </li>
-                <li className="has-submenu parent-menu-item">
-                  <button className="sub-menu-item">
-                    Creator
-                    <span className="submenu-arrow"></span>
-                  </button>
-                  <ul className="submenu">
-                    <li>
-                      <Link href="/nft-creators" className="sub-menu-item">
-                        Creators
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/nft-creator-profile"
-                        className="sub-menu-item"
-                      >
-                        Creator Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/nft-creator-profile-edit"
-                        className="sub-menu-item"
-                      >
-                        Profile Edit
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <Link href="/nft-create-item" className="sub-menu-item">
-                    Create NFT
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/nft-detail" className="sub-menu-item">
-                    Single NFT
-                  </Link>
-                </li>
-              </ul>
-            </li>
-
             <li>
-              <Link href="/nft-wallet" className="sub-menu-item">
-                Wallet
+              <Link href="/contact-one" className="sub-menu-item">
+                Wedding
               </Link>
             </li>
 
-            <li className="has-submenu parent-parent-menu-item">
-              <button className="sub-menu-item">
-                Pages
-                <span className="menu-arrow"></span>
-              </button>
-              <ul className="submenu">
-                <li className="has-submenu parent-menu-item">
-                  <button className="sub-menu-item">
-                    Auth Pages
-                    <span className="submenu-arrow"></span>
-                  </button>
-                  <ul className="submenu">
-                    <li>
-                      <Link href="/auth-login" className="sub-menu-item">
-                        Login
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/auth-signup" className="sub-menu-item">
-                        Signup
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/auth-re-password" className="sub-menu-item">
-                        Reset Password
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/auth-lock-screen" className="sub-menu-item">
-                        Lock Screen
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li className="has-submenu parent-menu-item">
-                  <button className="sub-menu-item">
-                    Utility
-                    <span className="submenu-arrow"></span>
-                  </button>
-                  <ul className="submenu">
-                    <li>
-                      <Link href="/page-terms" className="sub-menu-item">
-                        Terms of Services
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/page-privacy" className="sub-menu-item">
-                        Privacy Policy
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li className="has-submenu parent-menu-item">
-                  <button className="sub-menu-item">
-                    Special
-                    <span className="submenu-arrow"></span>
-                  </button>
-                  <ul className="submenu">
-                    <li>
-                      <Link href="/page-comingsoon" className="sub-menu-item">
-                        Coming Soon
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/page-maintenance" className="sub-menu-item">
-                        Maintenance
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/page-error" className="sub-menu-item">
-                        Error
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/page-thankyou" className="sub-menu-item">
-                        Thank you
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
+            <li>
+              <Link href="/contact-one" className="sub-menu-item">
+                Birthday
+              </Link>
             </li>
 
             <li>
               <Link href="/contact-one" className="sub-menu-item">
                 Trending
-              </Link>
-            </li>
-
-            <li>
-              <Link href="/contact-one" className="sub-menu-item">
-                Shop
               </Link>
             </li>
 

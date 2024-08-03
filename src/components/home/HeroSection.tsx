@@ -5,16 +5,23 @@ import Link from "next/link";
 const HeroSection: React.FC = () => {
   return (
     <section className="relative md:py-52 py-36 items-center overflow-hidden bg-gradient-to-br to-orange-600/20 via-fuchsia-600/20 from-indigo-600/20">
-      <div className="absolute inset-0 ltr:bg-[url('/assets/images/nft/hero.png')] bg-no-repeat bg-bottom bg-cover"></div>
+      <div
+        className="absolute inset-0 bg-[url('/assets/images/nft/hero.png')] bg-no-repeat bg-bottom bg-cover"
+        style={{
+          backgroundImage: "url('/assets/images/nft/hero.png') !important",
+        }}
+      ></div>
 
       <div className="container relative mx-auto">
         <div className="grid grid-cols-1 items-center mt-10">
           <h4 className="font-bold lg:leading-normal leading-normal text-4xl lg:text-5xl mb-5 text-black dark:text-white">
-            Discover Exclusive <br /> Digital collectibles
+            Rabalana Online invitations
           </h4>
           <p className="text-lg max-w-xl">
-            We are a huge marketplace dedicated to connecting great artists of
-            all Techwind with their fans and unique token collectors!
+            These days, wedding invitations have gotten a lot trendier than
+            ever. The new trend turns out to be digital invitations for
+            weddings. You can make cards online in the form of multiple or
+            standalone cards and wedding invitation video.
           </p>
 
           <div className="mt-8">
