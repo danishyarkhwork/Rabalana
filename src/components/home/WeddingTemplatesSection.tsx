@@ -30,40 +30,42 @@ const cardTemplates = [
   },
 ];
 
-const TemplatesSection: React.FC = () => {
+const WeddingTemplatesSection: React.FC = () => {
   return (
-    <section className="relative md:py-14 py-16">
-      <div className="container relative md:mt-12">
+    <section className="relative md:py-14 pt-16 bg-white dark:bg-gray-900 transition-colors duration-300">
+      <div className="container mx-auto relative md:mt-12 px-4">
         <div className="grid grid-cols-1 pb-8 text-center">
-          <h3 className="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">
+          <h3 className="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold text-gray-900">
             Wedding Card Designs
           </h3>
 
-          <p className="text-slate-400 max-w-xl mx-auto">
-            Rabalana helps you find a lot of wedding invitation templates online
-            for you to choose from. It is economically friendly and saves time
-            and trips to relatives and friends places.
+          <p className="text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
+            Rabalana helps you find a variety of wedding invitation templates
+            online for you to choose from. It is economically friendly and saves
+            time and trips to relatives and friends places.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {cardTemplates.map((card) => (
             <div
               key={card.id}
-              className="shadow-lg bg-light-gray rounded overflow-hidden transform transition duration-300 hover:scale-105"
+              className="shadow-lg bg-gray-100 dark:bg-gray-800 rounded overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
             >
-              <Link href={card.href}>
-                <div className="relative w-full h-64">
+              <Link href={card.href} className="block">
+                <div className="relative w-full h-full">
                   <Image
                     src={card.image}
                     alt={card.title}
-                    className="object-cover w-full"
+                    className="object-cover w-full h-full rounded-t"
                     height={500}
-                    width={300}
+                    width={250}
                   />
                 </div>
                 <div className="p-4">
-                  <h5 className="text-lg font-bold">{card.title}</h5>
+                  <h5 className="text-lg font-bold text-gray-900 dark:text-white">
+                    {card.title}
+                  </h5>
                 </div>
               </Link>
             </div>
@@ -73,7 +75,7 @@ const TemplatesSection: React.FC = () => {
         <div className="text-center mt-8">
           <Link
             href="/wedding-invitations/wedding-card-designs"
-            className="btn btn-bordered h-50 tangerine btn-tangerine w-100"
+            className="inline-block px-8 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors duration-300"
           >
             View all
           </Link>
@@ -83,4 +85,4 @@ const TemplatesSection: React.FC = () => {
   );
 };
 
-export default TemplatesSection;
+export default WeddingTemplatesSection;

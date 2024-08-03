@@ -1,13 +1,15 @@
 "use client";
 
 import HeroSection from "@/components/home/HeroSection";
-import TemplatesSection from "@/components/home/TemplatesSection";
+import WeddingTemplatesSection from "@/components/home/WeddingTemplatesSection";
+import BirthdayTemplatesSection from "@/components/home/BirthdayTemplatesSection";
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <TemplatesSection />
+      <WeddingTemplatesSection />
+      <BirthdayTemplatesSection />
     </>
   );
 }

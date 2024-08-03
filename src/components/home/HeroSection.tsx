@@ -1,8 +1,13 @@
 "use client";
 
+import { useState } from "react";
+import ModalVideo from "react-modal-video";
+import "react-modal-video/scss/modal-video.scss"; // Import the modal video styles
 import Link from "next/link";
 
 const HeroSection: React.FC = () => {
+  const [isOpen, setOpen] = useState(false);
+
   return (
     <section className="relative md:py-52 py-36 items-center overflow-hidden bg-gradient-to-br to-orange-600/20 via-fuchsia-600/20 from-indigo-600/20">
       <div
@@ -24,13 +29,28 @@ const HeroSection: React.FC = () => {
             standalone cards and wedding invitation video.
           </p>
 
-          <div className="mt-8">
+          <div className="relative mt-8">
             <Link
               href="/discover"
-              className="py-2 px-5 inline-block font-semibold tracking-wide border align-middle duration-500 text-base text-center bg-indigo-600 hover:bg-indigo-700 border-indigo-600 hover:border-indigo-700 text-white rounded-md"
+              className="py-2 px-5 inline-block font-semibold tracking-wide border align-middle duration-500 text-base text-center bg-indigo-600 hover:bg-indigo-700 border-indigo-600 hover:border-indigo-700 text-white rounded-md mr-2"
             >
-              Discover
+              Get Started
             </Link>
+
+            {/* Watch Now Button */}
+            <ModalVideo
+              channel="youtube"
+              isOpen={isOpen}
+              videoId="YJCEFNQyKTM"
+              onClose={() => setOpen(false)}
+            />
+
+            <button
+              className="size-12 inline-flex items-center mr-4 justify-center tracking-wide align-middle duration-500 text-base text-center bg-indigo-600 hover:bg-indigo-700 border-indigo-600 hover:border-indigo-700 text-white rounded-full"
+              onClick={() => setOpen(true)}
+            >
+              <i className="mdi mdi-play text-xl align-middle"></i>
+            </button>
           </div>
         </div>
         {/*end grid*/}

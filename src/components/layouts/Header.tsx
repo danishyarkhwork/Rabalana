@@ -93,7 +93,7 @@ const Header: React.FC = () => {
               type="button"
             >
               <Image
-                src="/assets/images/client/05.jpg"
+                src="/assets/images/users/saidy.jpg"
                 className="rounded-full"
                 alt="Profile Image"
                 width={40}
@@ -108,7 +108,7 @@ const Header: React.FC = () => {
                   <div className="absolute px-4 -bottom-7 start-0">
                     <div className="flex items-end">
                       <Image
-                        src="/assets/images/client/05.jpg"
+                        src="/assets/images/users/saidy.jpg"
                         className="rounded-full size-10 shadow dark:shadow-gray-700"
                         alt="Dropdown Image"
                         width={40}
@@ -116,34 +116,13 @@ const Header: React.FC = () => {
                       />
 
                       <span className="font-semibold text-[15px] ms-1">
-                        Cristina Murfy
+                        Esmatullah
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-10 px-4">
-                  <h5 className="font-semibold text-[15px]">Wallet:</h5>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[13px] text-slate-400">
-                      qhut0...hfteh45
-                    </span>
-                    <Link href="#" className="text-indigo-600">
-                      <i className="uil uil-copy"></i>
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="mt-4 px-4">
-                  <h5 className="text-[15px]">
-                    Balance:{" "}
-                    <span className="text-indigo-600 font-semibold">
-                      0.00045ETH
-                    </span>
-                  </h5>
-                </div>
-
-                <ul className="py-2 text-start">
+                <ul className="py-2 text-start mt-8">
                   <li>
                     <Link
                       href="/nft-creator-profile"

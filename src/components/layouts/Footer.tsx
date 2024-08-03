@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
                 <div className="lg:col-span-4 md:col-span-12">
                   <Link href="/" className="text-[22px] focus:outline-none">
                     <Image
-                      src="/assets/images/logo-light.png"
+                      src="/assets/images/logo-dark.png"
                       alt="Logo"
                       width={150}
                       height={40}
