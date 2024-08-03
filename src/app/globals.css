@@ -1,0 +1,13 @@
+/* In your CSS file */
+.home-page .navigation-menu .sub-menu-item {
+  background-color: transparent; /* Default color for home page */
+}
+
+.other-page .navigation-menu .sub-menu-item {
+  background-color: white; /* Background color for other pages */
+}
+
+.sub-menu-item.active {
+  font-weight: bold;
+  color: #4a90e2; /* Change this to your active link color */
+}

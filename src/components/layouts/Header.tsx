@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Ensure this directive is at the top
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -8,22 +8,25 @@ const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+  const toggleDropdown = () => setDropdownOpen((prev) => !prev);
 
   useEffect(() => {
-    console.log("Dropdown state:", dropdownOpen);
     if (dropdownOpen) {
       const dropdownElement = document.querySelector(".dropdown-menu");
-      console.log("Dropdown element:", dropdownElement);
       if (dropdownElement) {
-        // Ensure dropdown initialization
-        // Example: dropdownElement.classList.add("show");
+        dropdownElement.classList.add("show");
+      }
+    } else {
+      const dropdownElement = document.querySelector(".dropdown-menu");
+      if (dropdownElement) {
+        dropdownElement.classList.remove("show");
       }
     }
   }, [dropdownOpen]);
 
   return (
-    <nav id="topnav" className="defaultscroll is-sticky">
+    <nav id="topnav" className={`defaultscroll is-sticky home-page`}>
       <div className="container relative mx-auto">
         {/* Logo container */}
         <Link href="/" className="logo ps-0">
@@ -78,7 +81,7 @@ const Header: React.FC = () => {
               <i className="uil uil-search text-lg absolute top-1/2 -translate-y-1/2 start-3"></i>
               <input
                 type="text"
-                className="form-input sm:w-55 w-40 ps-10 py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-3xl outline-none border border-gray-200 focus:border-indigo-600 dark:border-gray-800 dark:focus:border-indigo-600 focus:ring-0 bg-white"
+                className="form-input sm:w-55 w-36 ps-10 py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded-3xl outline-none border border-gray-200 focus:border-indigo-600 dark:border-gray-800 dark:focus:border-indigo-600 focus:ring-0 bg-white"
                 name="s"
                 id="searchItem"
                 placeholder="Search..."
@@ -88,7 +91,7 @@ const Header: React.FC = () => {
 
           <li className="dropdown inline-block relative ps-1">
             <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
+              onClick={toggleDropdown}
               className="dropdown-toggle size-9 inline-flex items-center justify-center tracking-wide align-middle duration-500 text-base text-center rounded-full bg-indigo-600 hover:bg-indigo-700 border border-indigo-600 hover:border-indigo-700 text-white"
               type="button"
             >
@@ -114,7 +117,6 @@ const Header: React.FC = () => {
                         width={40}
                         height={40}
                       />
-
                       <span className="font-semibold text-[15px] ms-1">
                         Esmatullah
                       </span>
@@ -162,31 +164,31 @@ const Header: React.FC = () => {
           {/* Navigation Menu */}
           <ul className="navigation-menu justify-start ps-10">
             <li>
-              <Link href="/pages/wedding" className="sub-menu-item">
+              <Link href="/pages/wedding" className={`sub-menu-item`}>
                 Wedding
               </Link>
             </li>
 
             <li>
-              <Link href="/birthday" className="sub-menu-item">
+              <Link href="/birthday" className={`sub-menu-item`}>
                 Birthday
               </Link>
             </li>
 
             <li>
-              <Link href="/trending" className="sub-menu-item">
+              <Link href="/trending" className={`sub-menu-item`}>
                 Trending
               </Link>
             </li>
 
             <li>
-              <Link href="/shop" className="sub-menu-item">
+              <Link href="/shop" className={`sub-menu-item`}>
                 Shop
               </Link>
             </li>
 
             <li>
-              <Link href="/blog" className="sub-menu-item">
+              <Link href="/blog" className={`sub-menu-item`}>
                 Blog
               </Link>
             </li>
