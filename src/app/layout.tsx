@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layouts/Header";
+import Footer from "@/components/layouts/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="light scroll-smooth" dir="ltr">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="A description of my Next.js 14 app" />
@@ -37,10 +38,7 @@ export default function RootLayout({
       <body>
         <Header />
         <main>{children}</main>
-        <footer>
-          {/* Your footer content */}
-          <p>&copy; {new Date().getFullYear()} My Next.js 14 App</p>
-        </footer>
+        <Footer />
       </body>
     </html>
   );

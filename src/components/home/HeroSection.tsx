@@ -5,7 +5,7 @@ import Link from "next/link";
 const HeroSection: React.FC = () => {
   return (
     <section className="relative md:py-52 py-36 items-center overflow-hidden bg-gradient-to-br to-orange-600/20 via-fuchsia-600/20 from-indigo-600/20">
-      <div className="absolute inset-0 ltr:bg-[url('/assets/images/nft/hero.png')] rtl:bg-[url('/assets/images/nft/hero-rtl.png')] bg-no-repeat bg-bottom bg-cover"></div>
+      <div className="absolute inset-0 ltr:bg-[url('/assets/images/nft/hero.png')] bg-no-repeat bg-bottom bg-cover"></div>
 
       <div className="container relative mx-auto">
         <div className="grid grid-cols-1 items-center mt-10">
