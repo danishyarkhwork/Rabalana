@@ -28,6 +28,30 @@ const cardTemplates = [
     image: "/assets/images/templates/4.jpg",
     href: "/wedding-invitations/templates/southindian-pastel-bananaleaves-theme/859",
   },
+  {
+    id: 5,
+    title: "Forever Yours",
+    image: "/assets/images/templates/4.jpg",
+    href: "/wedding-invitations/templates/southindian-pastel-bananaleaves-theme/859",
+  },
+  {
+    id: 6,
+    title: "Forever Yours",
+    image: "/assets/images/templates/4.jpg",
+    href: "/wedding-invitations/templates/southindian-pastel-bananaleaves-theme/859",
+  },
+  {
+    id: 7,
+    title: "Forever Yours",
+    image: "/assets/images/templates/4.jpg",
+    href: "/wedding-invitations/templates/southindian-pastel-bananaleaves-theme/859",
+  },
+  {
+    id: 8,
+    title: "Forever Yours",
+    image: "/assets/images/templates/4.jpg",
+    href: "/wedding-invitations/templates/southindian-pastel-bananaleaves-theme/859",
+  },
 ];
 
 const WeddingPage: React.FC = () => {
@@ -70,15 +94,6 @@ const WeddingPage: React.FC = () => {
               </Link>
             </div>
           ))}
-        </div>
-
-        <div className="text-center mt-8">
-          <Link
-            href="/wedding-invitations/wedding-card-designs"
-            className="inline-block px-8 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors duration-300"
-          >
-            View all
-          </Link>
         </div>
       </div>
     </section>

@@ -74,7 +74,7 @@ const BirthdayTemplatesSection: React.FC = () => {
 
         <div className="text-center mt-8">
           <Link
-            href="/wedding-invitations/wedding-card-designs"
+            href="/pages/birthday"
             className="inline-block px-8 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors duration-300"
           >
             View all

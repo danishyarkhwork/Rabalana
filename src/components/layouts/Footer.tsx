@@ -113,7 +113,7 @@ const Footer: React.FC = () => {
                     </li>
                     <li className="mt-[10px]">
                       <Link
-                        href="/page-services"
+                        href="/pages/services"
                         className="text-gray-300 hover:text-gray-400 duration-500 ease-in-out"
                       >
                         <i className="uil uil-angle-right-b"></i> Services
@@ -121,26 +121,26 @@ const Footer: React.FC = () => {
                     </li>
                     <li className="mt-[10px]">
                       <Link
-                        href="/page-team"
+                        href="/pages/blog"
                         className="text-gray-300 hover:text-gray-400 duration-500 ease-in-out"
                       >
-                        <i className="uil uil-angle-right-b"></i> Team
+                        <i className="uil uil-angle-right-b"></i> Blog
                       </Link>
                     </li>
                     <li className="mt-[10px]">
                       <Link
-                        href="/page-pricing"
+                        href="/pages/shop"
                         className="text-gray-300 hover:text-gray-400 duration-500 ease-in-out"
                       >
-                        <i className="uil uil-angle-right-b"></i> Pricing
+                        <i className="uil uil-angle-right-b"></i> Shop
                       </Link>
                     </li>
                     <li className="mt-[10px]">
                       <Link
-                        href="/portfolio-creative-four"
+                        href="/pages/trending"
                         className="text-gray-300 hover:text-gray-400 duration-500 ease-in-out"
                       >
-                        <i className="uil uil-angle-right-b"></i> Project
+                        <i className="uil uil-angle-right-b"></i> Trending
                       </Link>
                     </li>
                   </ul>
