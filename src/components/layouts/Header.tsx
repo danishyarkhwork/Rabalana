@@ -181,33 +181,33 @@ const Header: React.FC = () => {
 
         <div id="navigation" className={menuOpen ? "block" : "hidden"}>
           {/* Navigation Menu */}
-          <ul className="navigation-menu justify-start">
+          <ul className="navigation-menu justify-start ps-10">
             <li>
-              <Link href="/index-nft" className="sub-menu-item">
-                Home
-              </Link>
-            </li>
-
-            <li>
-              <Link href="/contact-one" className="sub-menu-item">
+              <Link href="/wedding" className="sub-menu-item">
                 Wedding
               </Link>
             </li>
 
             <li>
-              <Link href="/contact-one" className="sub-menu-item">
+              <Link href="/birthday" className="sub-menu-item">
                 Birthday
               </Link>
             </li>
 
             <li>
-              <Link href="/contact-one" className="sub-menu-item">
+              <Link href="/trending" className="sub-menu-item">
                 Trending
               </Link>
             </li>
 
             <li>
-              <Link href="/contact-one" className="sub-menu-item">
+              <Link href="/shop" className="sub-menu-item">
+                Shop
+              </Link>
+            </li>
+
+            <li>
+              <Link href="/blog" className="sub-menu-item">
                 Blog
               </Link>
             </li>

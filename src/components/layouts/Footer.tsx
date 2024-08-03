@@ -201,9 +201,7 @@ const Footer: React.FC = () => {
                   <h5 className="tracking-[1px] text-gray-100 font-semibold">
                     Newsletter
                   </h5>
-                  <p className="mt-6">
-                    Sign up and receive the latest tips via email.
-                  </p>
+                  <p className="mt-6">Sign up and receive the latest tips.</p>
                   <form>
                     <div className="grid grid-cols-1">
                       <div className="my-3">
@@ -255,7 +253,7 @@ const Footer: React.FC = () => {
               <p className="mb-0">
                 © {new Date().getFullYear()}{" "}
                 <Link
-                  href="https://shreethemes.in/"
+                  href="https://rabalana.com/"
                   target="_blank"
                   className="text-reset"
                 >
