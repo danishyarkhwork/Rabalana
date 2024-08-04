@@ -164,7 +164,7 @@ const Header: React.FC = () => {
           {/* Navigation Menu */}
           <ul className="navigation-menu justify-start ps-10">
             <li>
-              <Link href="/pages/wedding" className={`sub-menu-item`}>
+              <Link href="/wedding" className={`sub-menu-item`}>
                 Wedding
               </Link>
             </li>
