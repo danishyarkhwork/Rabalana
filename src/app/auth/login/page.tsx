@@ -3,12 +3,13 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext"; // Adjust the path if necessary
+import Link from "next/link";
 
 const Login: React.FC = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<{ username: string; password: string }>({
-    username: "",
+  const [error, setError] = useState<{ email: string; password: string }>({
+    email: "",
     password: "",
   });
   const [rememberMe, setRememberMe] = useState(false);
@@ -18,22 +19,22 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const validUsername = "admin";
+    const validEmail = "admin@admin.com";
     const validPassword = "admin";
 
-    let usernameError = "";
+    let emailError = "";
     let passwordError = "";
 
-    if (username !== validUsername) {
-      usernameError = "Invalid username";
+    if (email !== validEmail) {
+      emailError = "Invalid email";
     }
 
     if (password !== validPassword) {
       passwordError = "Incorrect password";
     }
 
-    if (usernameError || passwordError) {
-      setError({ username: usernameError, password: passwordError });
+    if (emailError || passwordError) {
+      setError({ email: emailError, password: passwordError });
     } else {
       // Call login function from AuthContext
       login();
@@ -58,22 +59,20 @@ const Login: React.FC = () => {
             <form onSubmit={handleSubmit} className="text-start">
               <div className="grid grid-cols-1">
                 <div className="mb-4">
-                  <label className="font-semibold" htmlFor="username">
-                    Username:
+                  <label className="font-semibold" htmlFor="email">
+                    Email:
                   </label>
                   <input
-                    id="username"
-                    type="text"
+                    id="email"
+                    type="email"
                     className="form-input mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-200 focus:border-indigo-600 dark:border-gray-800 dark:focus:border-indigo-600 focus:ring-0"
-                    placeholder="Enter your username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
-                  {error.username && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {error.username}
-                    </p>
+                  {error.email && (
+                    <p className="text-red-500 text-sm mt-1">{error.email}</p>
                   )}
                 </div>
 
@@ -129,12 +128,12 @@ const Login: React.FC = () => {
                   <span className="text-slate-400 me-2">
                     Do not have an account?
                   </span>{" "}
-                  <a
+                  <Link
                     href="/auth/signup"
                     className="text-black dark:text-white font-bold inline-block"
                   >
                     Sign Up
-                  </a>
+                  </Link>
                 </div>
               </div>
             </form>
