@@ -11,3 +11,7 @@
   font-weight: bold;
   color: #4a90e2; /* Change this to your active link color */
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

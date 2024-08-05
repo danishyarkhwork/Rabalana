@@ -1,9 +1,10 @@
 "use client"; // Ensure this directive is at the top
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext"; // Adjust the path if necessary
 import Link from "next/link";
+import Skeleton from "@/components/common/Skeleton"; // Ensure this path is correct
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -13,11 +14,22 @@ const Login: React.FC = () => {
     password: "",
   });
   const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(true); // Start with loading set to true
   const router = useRouter();
   const { login } = useAuth();
 
+  // Simulate loading effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000); // Adjust the duration as needed
+
+    return () => clearTimeout(timer); // Cleanup on component unmount
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     const validEmail = "admin@admin.com";
     const validPassword = "admin";
@@ -35,10 +47,14 @@ const Login: React.FC = () => {
 
     if (emailError || passwordError) {
       setError({ email: emailError, password: passwordError });
+      setLoading(false); // Stop loading if there is an error
     } else {
-      // Call login function from AuthContext
-      login();
-      router.push("/");
+      // Simulate API call delay
+      setTimeout(async () => {
+        await login();
+        router.push("/");
+        setLoading(false);
+      }, 2000); // Simulate loading for 2 seconds
     }
   };
 
@@ -56,87 +72,97 @@ const Login: React.FC = () => {
               />
             </a>
             <h5 className="my-6 text-xl font-semibold">Login</h5>
-            <form onSubmit={handleSubmit} className="text-start">
-              <div className="grid grid-cols-1">
-                <div className="mb-4">
-                  <label className="font-semibold" htmlFor="email">
-                    Email:
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    className="form-input mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-200 focus:border-indigo-600 dark:border-gray-800 dark:focus:border-indigo-600 focus:ring-0"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                  {error.email && (
-                    <p className="text-red-500 text-sm mt-1">{error.email}</p>
-                  )}
-                </div>
-
-                <div className="mb-4">
-                  <label className="font-semibold" htmlFor="password">
-                    Password:
-                  </label>
-                  <input
-                    id="password"
-                    type="password"
-                    className="form-input mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-200 focus:border-indigo-600 dark:border-gray-800 dark:focus:border-indigo-600 focus:ring-0"
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                  {error.password && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {error.password}
-                    </p>
-                  )}
-                </div>
-
-                <div className="flex justify-between mb-4">
-                  <div className="flex items-center mb-0">
-                    <input
-                      id="rememberMe"
-                      type="checkbox"
-                      className="form-checkbox rounded border-gray-200 dark:border-gray-800 text-indigo-600 focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50 me-2"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                    />
-                    <label className="text-slate-400" htmlFor="rememberMe">
-                      Remember me
-                    </label>
-                  </div>
-                  <p className="text-slate-400 mb-0">
-                    <a href="/auth/re-password" className="text-slate-400">
-                      Forgot password?
-                    </a>
-                  </p>
-                </div>
-
-                <div className="mb-4">
-                  <input
-                    type="submit"
-                    className="py-2 px-5 inline-block tracking-wide border align-middle duration-500 text-base text-center bg-indigo-600 hover:bg-indigo-700 border-indigo-600 hover:border-indigo-700 text-white rounded-md w-full cursor-pointer"
-                    value="Login / Sign in"
-                  />
-                </div>
-
-                <div className="text-center">
-                  <span className="text-slate-400 me-2">
-                    Do not have an account?
-                  </span>{" "}
-                  <Link
-                    href="/auth/signup"
-                    className="text-black dark:text-white font-bold inline-block"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
+            {loading ? (
+              <div className="space-y-4">
+                <Skeleton className="h-10 w-full mb-4" /> {/* Email Skeleton */}
+                <Skeleton className="h-10 w-full mb-4" />{" "}
+                {/* Password Skeleton */}
+                <Skeleton className="h-10 w-full mb-4" />{" "}
+                {/* Submit Button Skeleton */}
               </div>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit} className="text-start">
+                <div className="grid grid-cols-1">
+                  <div className="mb-4">
+                    <label className="font-semibold" htmlFor="email">
+                      Email:
+                    </label>
+                    <input
+                      id="email"
+                      type="email"
+                      className="form-input mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-200 focus:border-indigo-600 dark:border-gray-800 dark:focus:border-indigo-600 focus:ring-0"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                    {error.email && (
+                      <p className="text-red-500 text-sm mt-1">{error.email}</p>
+                    )}
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="font-semibold" htmlFor="password">
+                      Password:
+                    </label>
+                    <input
+                      id="password"
+                      type="password"
+                      className="form-input mt-3 w-full py-2 px-3 h-10 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-200 focus:border-indigo-600 dark:border-gray-800 dark:focus:border-indigo-600 focus:ring-0"
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    {error.password && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {error.password}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex justify-between mb-4">
+                    <div className="flex items-center mb-0">
+                      <input
+                        id="rememberMe"
+                        type="checkbox"
+                        className="form-checkbox rounded border-gray-200 dark:border-gray-800 text-indigo-600 focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50 me-2"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                      />
+                      <label className="text-slate-400" htmlFor="rememberMe">
+                        Remember me
+                      </label>
+                    </div>
+                    <p className="text-slate-400 mb-0">
+                      <a href="/auth/re-password" className="text-slate-400">
+                        Forgot password?
+                      </a>
+                    </p>
+                  </div>
+
+                  <div className="mb-4">
+                    <input
+                      type="submit"
+                      className="py-2 px-5 inline-block tracking-wide border align-middle duration-500 text-base text-center bg-indigo-600 hover:bg-indigo-700 border-indigo-600 hover:border-indigo-700 text-white rounded-md w-full cursor-pointer"
+                      value="Login / Sign in"
+                    />
+                  </div>
+
+                  <div className="text-center">
+                    <span className="text-slate-400 me-2">
+                      Do not have an account?
+                    </span>{" "}
+                    <Link
+                      href="/auth/signup"
+                      className="text-black dark:text-white font-bold inline-block"
+                    >
+                      Sign Up
+                    </Link>
+                  </div>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>
