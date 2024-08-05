@@ -89,9 +89,9 @@ const WeddingPage: React.FC = () => {
               className="shadow-lg bg-gray-100 dark:bg-gray-800 rounded overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
             >
               <Link href={card.href} className="block">
-                <div className="relative w-full h-64">
+                <div className="relative w-full h-full">
                   {loading ? (
-                    <Skeleton className="h-full w-full" /> // Image skeleton
+                    <Skeleton className="h-64 w-full" /> // Image skeleton
                   ) : (
                     <Image
                       src={card.image}

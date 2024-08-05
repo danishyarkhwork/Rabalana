@@ -87,6 +87,7 @@ const Login: React.FC = () => {
                     <label className="font-semibold" htmlFor="email">
                       Email:
                     </label>
+
                     <input
                       id="email"
                       type="email"

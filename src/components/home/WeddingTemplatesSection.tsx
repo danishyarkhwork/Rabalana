@@ -10,25 +10,25 @@ const cardTemplates = [
     id: 1,
     title: "Dil Diya Gallan",
     image: "/assets/images/templates/1.jpg",
-    href: "/wedding-invitations/templates/punjabi-lanterns-caricature-theme/865",
+    href: "/preview/1",
   },
   {
     id: 2,
     title: "Luhongba",
     image: "/assets/images/templates/2.jpg",
-    href: "/wedding-invitations/templates/manipuri-heart-bougainvillea-theme/864",
+    href: "/preview/2",
   },
   {
     id: 3,
     title: "The Chapel",
     image: "/assets/images/templates/3.jpg",
-    href: "/wedding-invitations/templates/christian-floral-stairs-theme/860",
+    href: "/preview/3",
   },
   {
     id: 4,
     title: "Forever Yours",
     image: "/assets/images/templates/4.jpg",
-    href: "/wedding-invitations/templates/southindian-pastel-bananaleaves-theme/859",
+    href: "/preview/4",
   },
 ];
 
@@ -67,7 +67,7 @@ const WeddingTemplatesSection: React.FC = () => {
               <Link href={card.href} className="block">
                 <div className="relative w-full h-full">
                   {loading ? (
-                    <Skeleton className="h-64 w-full" /> // Image skeleton
+                    <div className="h-64 w-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
                   ) : (
                     <Image
                       src={card.image}
@@ -80,7 +80,7 @@ const WeddingTemplatesSection: React.FC = () => {
                 </div>
                 <div className="p-4">
                   {loading ? (
-                    <Skeleton className="h-6 w-3/4 mb-4" /> // Title skeleton
+                    <div className="h-6 w-3/4 mb-4 bg-gray-200 dark:bg-gray-700 animate-pulse" />
                   ) : (
                     <h5 className="text-lg font-bold text-gray-900 dark:text-white">
                       {card.title}
@@ -94,7 +94,7 @@ const WeddingTemplatesSection: React.FC = () => {
 
         <div className="text-center mt-8">
           <Link
-            href="/pages/wedding"
+            href="/wedding"
             className="inline-block px-8 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors duration-300"
           >
             View all
