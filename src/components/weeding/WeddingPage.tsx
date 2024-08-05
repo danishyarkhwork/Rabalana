@@ -1,7 +1,9 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Skeleton from "@/components/common/Skeleton"; // Adjust the path as necessary
 
 const cardTemplates = [
   {
@@ -55,6 +57,16 @@ const cardTemplates = [
 ];
 
 const WeddingPage: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Simulate 2-second loading delay
+
+    return () => clearTimeout(timer); // Cleanup on component unmount
+  }, []);
+
   return (
     <section className="relative md:py-24 pt-16 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto relative md:mt-12 px-4">
@@ -77,19 +89,27 @@ const WeddingPage: React.FC = () => {
               className="shadow-lg bg-gray-100 dark:bg-gray-800 rounded overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
             >
               <Link href={card.href} className="block">
-                <div className="relative w-full h-full">
-                  <Image
-                    src={card.image}
-                    alt={card.title}
-                    className="object-cover w-full h-full rounded-t"
-                    height={500}
-                    width={250}
-                  />
+                <div className="relative w-full h-64">
+                  {loading ? (
+                    <Skeleton className="h-full w-full" /> // Image skeleton
+                  ) : (
+                    <Image
+                      src={card.image}
+                      alt={card.title}
+                      className="object-cover w-full h-full rounded-t"
+                      height={500}
+                      width={250}
+                    />
+                  )}
                 </div>
                 <div className="p-4">
-                  <h5 className="text-lg font-bold text-gray-900 dark:text-white">
-                    {card.title}
-                  </h5>
+                  {loading ? (
+                    <Skeleton className="h-6 w-3/4 mb-4" /> // Title skeleton
+                  ) : (
+                    <h5 className="text-lg font-bold text-gray-900 dark:text-white">
+                      {card.title}
+                    </h5>
+                  )}
                 </div>
               </Link>
             </div>
