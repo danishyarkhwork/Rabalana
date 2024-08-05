@@ -10,49 +10,49 @@ const cardTemplates = [
     id: 1,
     title: "Dil Diya Gallan",
     image: "/assets/images/templates/1.jpg",
-    href: "/wedding-invitations/templates/punjabi-lanterns-caricature-theme/865",
+    href: "/preview/1",
   },
   {
     id: 2,
     title: "Luhongba",
     image: "/assets/images/templates/2.jpg",
-    href: "/wedding-invitations/templates/manipuri-heart-bougainvillea-theme/864",
+    href: "/preview/3",
   },
   {
     id: 3,
     title: "The Chapel",
     image: "/assets/images/templates/3.jpg",
-    href: "/wedding-invitations/templates/christian-floral-stairs-theme/860",
+    href: "/preview/2",
   },
   {
     id: 4,
     title: "Forever Yours",
     image: "/assets/images/templates/4.jpg",
-    href: "/wedding-invitations/templates/southindian-pastel-bananaleaves-theme/859",
+    href: "/preview/1",
   },
   {
     id: 5,
     title: "Forever Yours",
     image: "/assets/images/templates/4.jpg",
-    href: "/wedding-invitations/templates/southindian-pastel-bananaleaves-theme/859",
+    href: "/preview/1",
   },
   {
     id: 6,
     title: "Forever Yours",
     image: "/assets/images/templates/4.jpg",
-    href: "/wedding-invitations/templates/southindian-pastel-bananaleaves-theme/859",
+    href: "/preview/1",
   },
   {
     id: 7,
     title: "Forever Yours",
     image: "/assets/images/templates/4.jpg",
-    href: "/wedding-invitations/templates/southindian-pastel-bananaleaves-theme/859",
+    href: "/preview/1",
   },
   {
     id: 8,
     title: "Forever Yours",
     image: "/assets/images/templates/4.jpg",
-    href: "/wedding-invitations/templates/southindian-pastel-bananaleaves-theme/859",
+    href: "/preview/1",
   },
 ];
 
@@ -68,7 +68,7 @@ const WeddingPage: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative md:py-24 pt-16 bg-white dark:bg-gray-900 transition-colors duration-300">
+    <section className="relative md:py-14 pt-10 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto relative md:mt-12 px-4">
         <div className="grid grid-cols-1 pb-8 text-center">
           <h3 className="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold text-gray-900">

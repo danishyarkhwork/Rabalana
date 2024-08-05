@@ -44,7 +44,7 @@ const WeddingTemplatesSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative md:py-14 pt-16 bg-white dark:bg-gray-900 transition-colors duration-300">
+    <section className="relative md:pb-14 pb-16 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto relative md:mt-12 px-4">
         <div className="grid grid-cols-1 pb-8 text-center">
           <h3 className="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold text-gray-900">

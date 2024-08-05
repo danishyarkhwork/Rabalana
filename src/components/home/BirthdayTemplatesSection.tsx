@@ -10,25 +10,25 @@ const cardTemplates = [
     id: 1,
     title: "Dil Diya Gallan",
     image: "/assets/images/templates/5.jpg",
-    href: "/wedding-invitations/templates/punjabi-lanterns-caricature-theme/865",
+    href: "/preview/1",
   },
   {
     id: 2,
     title: "Luhongba",
     image: "/assets/images/templates/6.jpg",
-    href: "/wedding-invitations/templates/manipuri-heart-bougainvillea-theme/864",
+    href: "/preview/3",
   },
   {
     id: 3,
     title: "The Chapel",
     image: "/assets/images/templates/7.jpg",
-    href: "/wedding-invitations/templates/christian-floral-stairs-theme/860",
+    href: "/preview/2",
   },
   {
     id: 4,
     title: "Forever Yours",
     image: "/assets/images/templates/8.jpg",
-    href: "/wedding-invitations/templates/southindian-pastel-bananaleaves-theme/859",
+    href: "/preview/1",
   },
 ];
 
@@ -44,7 +44,7 @@ const BirthdayTemplatesSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative md:py-14 py-16 bg-white dark:bg-gray-900 transition-colors duration-300">
+    <section className="relative md:pb-14 pb-16 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto relative md:mt-12 px-4">
         <div className="grid grid-cols-1 pb-8 text-center">
           <h3 className="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold text-gray-900">
