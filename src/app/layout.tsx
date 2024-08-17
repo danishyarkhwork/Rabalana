@@ -28,10 +28,6 @@ export default function RootLayout({
         />
         <link
           rel="stylesheet"
-          href="/assets/libs/@iconscout/unicons/css/line.css"
-        />
-        <link
-          rel="stylesheet"
           href="/assets/libs/@mdi/font/css/materialdesignicons.min.css"
         />
         <link rel="stylesheet" href="/assets/css/tailwind.css" />

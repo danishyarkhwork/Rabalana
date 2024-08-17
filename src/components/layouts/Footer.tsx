@@ -12,10 +12,6 @@ const Footer: React.FC = () => {
     setCookiePopupVisible(false);
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <footer className="footer bg-dark-footer relative text-gray-200 dark:text-gray-200">
       <div className="container relative mx-auto">
@@ -269,16 +265,6 @@ const Footer: React.FC = () => {
         </div>
         {/*end container*/}
       </div>
-
-      {/* Back to top */}
-      <button
-        onClick={scrollToTop}
-        id="back-to-top"
-        className="back-to-top fixed hidden text-lg rounded-full z-10 bottom-5 end-5 size-9 text-center bg-indigo-600 text-white leading-9"
-      >
-        <i className="uil uil-arrow-up"></i>
-      </button>
-      {/* Back to top */}
 
       {/* Switcher */}
       <div className="fixed top-[30%] -right-2 z-50">
