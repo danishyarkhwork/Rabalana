@@ -22,17 +22,17 @@ const PreviewContent: React.FC<{ template: Template }> = ({ template }) => {
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-full flex justify-center">
       <div className="relative">
         {loading ? (
-          <div className="w-full h-96 bg-gray-300 animate-pulse" />
+          <div className="w-[220px] h-[308px] bg-gray-300 animate-pulse rounded-lg" />
         ) : (
           <Image
             src={template.image}
             alt={template.title}
             className="rounded-lg shadow-lg"
-            height={500}
-            width={350}
+            height={308}
+            width={220}
             onLoad={() => setLoading(false)}
           />
         )}
