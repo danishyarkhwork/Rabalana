@@ -72,12 +72,12 @@ const PreviewPage = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <section className="bg-white py-16 transition-colors duration-300">
-      <div className="container mx-auto px-4">
+    <section className="relative max-w-6xl mt-28 mx-auto md:pb-14 pb-16 bg-white dark:bg-gray-900 transition-colors duration-300">
+      <div className="container relative md:mt-12 px-4">
         {/* Two-column layout using flexbox */}
         <div className="lg:flex lg:space-x-8">
           {/* Left Column: Preview (lg:w-8/12) */}
-          <div className="lg:w-8/12 w-full mb-8 lg:mb-0">
+          <div className="md:w-8/12 lg:w-8/12 sm:w-full mb-8 lg:mb-0">
             <div className="relative bg-pink-100 p-8 rounded-xl">
               <div className="absolute top-4 right-4 flex space-x-2">
                 <button className="bg-white p-2 rounded-full shadow-md hover:shadow-lg transition">
@@ -118,7 +118,7 @@ const PreviewPage = ({ params }: { params: { id: string } }) => {
           </div>
 
           {/* Right Column: Details (lg:w-4/12) */}
-          <div className="lg:w-4/12 w-full">
+          <div className="md:w-4/12 lg:w-4/12 sm:w-full">
             <div className="flex flex-col space-y-4">
               <div>
                 <h1 className="text-3xl font-bold">{template.title}</h1>
@@ -215,23 +215,6 @@ const PreviewPage = ({ params }: { params: { id: string } }) => {
                       />
                     </svg>
                     <span>Share</span>
-                  </button>
-                  <button className="flex items-center space-x-2 text-sm">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      className="w-5 h-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M8 12l4-4 4 4m0 6H8m12-6v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6"
-                      />
-                    </svg>
-                    <span>Order prints</span>
                   </button>
                 </div>
               </div>
