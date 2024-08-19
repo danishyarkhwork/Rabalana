@@ -1,10 +1,10 @@
-"use client"; // Ensure this directive is at the top
+"use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext"; // Adjust the path if necessary
+import { useRouter, useSearchParams } from "next/navigation"; // Change this import
 import Link from "next/link";
-import Skeleton from "@/components/common/Skeleton"; // Ensure this path is correct
+import { useAuth } from "@/context/AuthContext";
+import Skeleton from "@/components/common/Skeleton";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -14,17 +14,18 @@ const Login: React.FC = () => {
     password: "",
   });
   const [rememberMe, setRememberMe] = useState(false);
-  const [loading, setLoading] = useState(true); // Start with loading set to true
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const searchParams = useSearchParams(); // Use the new import
   const { login } = useAuth();
 
   // Simulate loading effect
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1000); // Adjust the duration as needed
+    }, 1000);
 
-    return () => clearTimeout(timer); // Cleanup on component unmount
+    return () => clearTimeout(timer);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,14 +48,14 @@ const Login: React.FC = () => {
 
     if (emailError || passwordError) {
       setError({ email: emailError, password: passwordError });
-      setLoading(false); // Stop loading if there is an error
+      setLoading(false);
     } else {
-      // Simulate API call delay
       setTimeout(async () => {
         await login();
-        router.push("/");
+        const redirectUrl = searchParams.get("redirect") || "/";
+        router.push(redirectUrl);
         setLoading(false);
-      }, 2000); // Simulate loading for 2 seconds
+      }, 2000);
     }
   };
 
@@ -74,11 +75,9 @@ const Login: React.FC = () => {
             <h5 className="my-6 text-xl font-semibold">Login</h5>
             {loading ? (
               <div className="space-y-4">
-                <Skeleton className="h-10 w-full mb-4" /> {/* Email Skeleton */}
-                <Skeleton className="h-10 w-full mb-4" />{" "}
-                {/* Password Skeleton */}
-                <Skeleton className="h-10 w-full mb-4" />{" "}
-                {/* Submit Button Skeleton */}
+                <Skeleton className="h-10 w-full mb-4" />
+                <Skeleton className="h-10 w-full mb-4" />
+                <Skeleton className="h-10 w-full mb-4" />
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="text-start">
@@ -87,7 +86,6 @@ const Login: React.FC = () => {
                     <label className="font-semibold" htmlFor="email">
                       Email:
                     </label>
-
                     <input
                       id="email"
                       type="email"
