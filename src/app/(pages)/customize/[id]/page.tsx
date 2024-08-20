@@ -1,5 +1,7 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
+import { useParams } from "next/navigation"; // For dynamic routes
 import { SketchPicker } from "react-color";
 import { Rnd } from "react-rnd";
 import { Menu, MenuItem } from "@szhsin/react-menu";
@@ -7,23 +9,85 @@ import "@szhsin/react-menu/dist/index.css";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-const CustomizePage = () => {
-  const [font, setFont] = useState("Engry");
-  const [fontSize, setFontSize] = useState(16);
-  const [fontColor, setFontColor] = useState("#000000");
-  const [isBold, setIsBold] = useState(false);
-  const [isItalic, setIsItalic] = useState(false);
-  const [isUnderline, setIsUnderline] = useState(false);
-  const [textAlign, setTextAlign] = useState("center");
-  const [showColorPicker, setShowColorPicker] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [zoomLevel, setZoomLevel] = useState(1);
+const templatesData = [
+  {
+    id: 1,
+    title: "Dil Diya Gallan",
+    description:
+      "A beautiful and elegant wedding invitation design inspired by traditional Punjabi themes.",
+    image: "/assets/images/templates/1.jpg",
+    bgColor: "#FFCDDA",
+  },
+  {
+    id: 2,
+    title: "Luhongba",
+    description:
+      "A modern wedding card design that celebrates Manipuri culture and traditions.",
+    image: "/assets/images/templates/2.jpg",
+    bgColor: "#FFEDBF",
+  },
+  {
+    id: 3,
+    title: "The Chapel",
+    description:
+      "A classic and timeless design for those who prefer a church wedding theme.",
+    image: "/assets/images/templates/3.jpg",
+    bgColor: "#FFDECD",
+  },
+  {
+    id: 4,
+    title: "Forever Yours",
+    description:
+      "A simple yet sophisticated design that captures the essence of eternal love.",
+    image: "/assets/images/templates/4.jpg",
+    bgColor: "#d2cdd0",
+  },
+];
 
-  const handleFontChange = (event) => {
+const CustomizePage = () => {
+  const params = useParams(); // Get route params
+  const id = params.id; // This assumes you are using a [id] dynamic segment in the route
+
+  const [template, setTemplate] = useState<{
+    id: number;
+    title: string;
+    description: string;
+    image: string;
+    bgColor: string;
+  } | null>(null);
+
+  const [text, setText] = useState<string>("YOU ARE CORDIALLY INVITED");
+  const [font, setFont] = useState<string>("Engry");
+  const [fontSize, setFontSize] = useState<number>(16);
+  const [fontColor, setFontColor] = useState<string>("#000000");
+  const [isBold, setIsBold] = useState<boolean>(false);
+  const [isItalic, setIsItalic] = useState<boolean>(false);
+  const [isUnderline, setIsUnderline] = useState<boolean>(false);
+  const [textAlign, setTextAlign] = useState<"left" | "center" | "right">(
+    "center"
+  );
+  const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [zoomLevel, setZoomLevel] = useState<number>(1);
+
+  useEffect(() => {
+    if (id) {
+      const selectedTemplate = templatesData.find(
+        (tpl) => tpl.id === Number(id)
+      );
+      setTemplate(selectedTemplate ?? null);
+    }
+  }, [id]);
+
+  if (!template) {
+    return <div>Loading...</div>;
+  }
+
+  const handleFontChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFont(event.target.value);
   };
 
-  const handleFontSizeChange = (amount) => {
+  const handleFontSizeChange = (amount: number) => {
     setFontSize((prev) => Math.max(8, prev + amount));
   };
 
@@ -51,20 +115,16 @@ const CustomizePage = () => {
     setIsUnderline(!isUnderline);
   };
 
-  const handleTextAlign = (align) => {
+  const handleTextAlign = (align: "left" | "center" | "right") => {
     setTextAlign(align);
   };
 
-  const handleZoomIn = () => {
-    setZoomLevel((prevZoom) => Math.min(prevZoom + 0.1, 2.5));
-  };
-
-  const handleZoomOut = () => {
-    setZoomLevel((prevZoom) => Math.max(prevZoom - 0.1, 1));
+  const handleZoomChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setZoomLevel(Number(e.target.value));
   };
 
   const handleDownloadImage = async () => {
-    const element = document.querySelector(".rnd-container"); // Update to your container class or id
+    const element = document.querySelector(".rnd-container") as HTMLElement;
     if (!element) return;
 
     const canvas = await html2canvas(element, {
@@ -78,7 +138,7 @@ const CustomizePage = () => {
   };
 
   const handleDownloadPDF = async () => {
-    const element = document.querySelector(".rnd-container"); // Update to your container class or id
+    const element = document.querySelector(".rnd-container") as HTMLElement;
     if (!element) return;
 
     const canvas = await html2canvas(element, {
@@ -86,19 +146,23 @@ const CustomizePage = () => {
     });
     const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF("p", "mm", "a4");
-    pdf.addImage(imgData, "PNG", 0, 0, 210, 297); // Adjust width and height as needed
+    pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
     pdf.save("template.pdf");
   };
 
   const handlePrint = () => {
-    const element = document.querySelector(".rnd-container"); // Update to your container class or id
-    if (!element) return;
-
-    const newWindow = window.open();
-    newWindow.document.write(element.outerHTML);
-    newWindow.document.close();
-    newWindow.focus();
-    newWindow.print();
+    const element = document.querySelector(".rnd-container") as HTMLElement;
+    if (element) {
+      const newWindow = window.open();
+      if (newWindow) {
+        newWindow.document.write(element.outerHTML);
+        newWindow.document.close();
+        newWindow.focus();
+        newWindow.print();
+      } else {
+        console.error("Failed to open new window");
+      }
+    }
   };
 
   const handleShare = () => {
@@ -106,7 +170,7 @@ const CustomizePage = () => {
       navigator
         .share({
           title: "Check out my design!",
-          url: window.location.href, // Assuming you want to share the current page
+          url: window.location.href,
         })
         .then(() => console.log("Successfully shared"))
         .catch((error) => console.log("Error sharing", error));
@@ -117,7 +181,6 @@ const CustomizePage = () => {
 
   const handleOrderPrints = () => {
     alert("Order Prints functionality will be implemented here.");
-    // You can redirect to a print order page or implement your order logic here
   };
 
   return (
@@ -125,7 +188,6 @@ const CustomizePage = () => {
       {/* Top Toolbar */}
       <div className="flex justify-between items-center bg-gray-100 px-4 py-2 shadow-md">
         <div className="flex items-center space-x-3">
-          {/* Font Selector */}
           <select
             value={font}
             onChange={handleFontChange}
@@ -135,8 +197,6 @@ const CustomizePage = () => {
             <option value="Arial">Arial</option>
             <option value="Times New Roman">Times New Roman</option>
           </select>
-
-          {/* Font Size Controls */}
           <div className="flex items-center space-x-1">
             <button
               onClick={() => handleFontSizeChange(-1)}
@@ -152,8 +212,6 @@ const CustomizePage = () => {
               +
             </button>
           </div>
-
-          {/* Color Picker */}
           <div className="relative">
             <button
               onClick={toggleColorPicker}
@@ -173,8 +231,6 @@ const CustomizePage = () => {
               </div>
             )}
           </div>
-
-          {/* Bold, Italic, Underline */}
           <div className="flex items-center space-x-1">
             <button
               className={`p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 font-bold text-sm ${
@@ -201,8 +257,6 @@ const CustomizePage = () => {
               U
             </button>
           </div>
-
-          {/* Text Alignment */}
           <div className="flex items-center space-x-1">
             <button
               className={`p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 ${
@@ -268,8 +322,6 @@ const CustomizePage = () => {
               </svg>
             </button>
           </div>
-
-          {/* Undo/Redo */}
           <div className="flex items-center space-x-1">
             <button className="p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300">
               <svg
@@ -305,8 +357,6 @@ const CustomizePage = () => {
             </button>
           </div>
         </div>
-
-        {/* Save Draft and Next Menu */}
         <div className="flex space-x-2">
           <button className="px-3 py-2 bg-green-500 text-white rounded-md shadow-sm hover:bg-green-600 text-sm">
             Save draft
@@ -441,7 +491,12 @@ const CustomizePage = () => {
       <div className="flex flex-1 justify-center items-center bg-white p-4">
         <div
           className="rnd-container relative w-full h-full max-w-2xl max-h-2xl shadow-lg border border-gray-300 rounded-md overflow-hidden"
-          style={{ transform: `scale(${zoomLevel})` }}
+          style={{
+            backgroundImage: `url(${template.image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            transform: `scale(${zoomLevel})`,
+          }}
         >
           <Rnd
             default={{
@@ -460,6 +515,8 @@ const CustomizePage = () => {
             }}
           >
             <div
+              contentEditable={true}
+              suppressContentEditableWarning={true}
               className="flex justify-center items-center w-full h-full"
               style={{
                 fontFamily: font,
@@ -470,8 +527,9 @@ const CustomizePage = () => {
                 textDecoration: isUnderline ? "underline" : "none",
                 textAlign: textAlign,
               }}
+              onInput={(e) => setText(e.currentTarget.textContent || "")}
             >
-              YOU ARE CORDIALLY INVITED
+              {text}
             </div>
           </Rnd>
         </div>
@@ -479,47 +537,16 @@ const CustomizePage = () => {
 
       {/* Zoom Controls */}
       <div className="fixed bottom-5 right-5 flex items-center space-x-3">
-        <button
-          onClick={handleZoomOut}
-          className="p-2 bg-gray-800 text-white rounded-full hover:bg-gray-700"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="21"
-            height="21"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              d="M8 12h8M12 2v20"
-            />
-          </svg>
-        </button>
+        <input
+          type="range"
+          min="1"
+          max="2.5"
+          step="0.1"
+          value={zoomLevel}
+          onChange={handleZoomChange}
+          className="slider"
+        />
         <span className="text-lg font-bold text-gray-800">{zoomLevel}x</span>
-        <button
-          onClick={handleZoomIn}
-          className="p-2 bg-gray-800 text-white rounded-full hover:bg-gray-700"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="21"
-            height="21"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              d="M12 8v8m-4-4h8"
-            />
-          </svg>
-        </button>
       </div>
     </div>
   );
