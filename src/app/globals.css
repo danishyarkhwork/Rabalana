@@ -12,6 +12,92 @@
   color: #4a90e2; /* Change this to your active link color */
 }
 
+.customize-page {
+  background-color: #f7f9fc;
+}
+
+.bg-toolbar {
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.bg-page-background {
+  background-color: #e0e7ff;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-lg {
+  border-radius: 8px;
+}
+
+.hover\:bg-gray-300:hover {
+  background-color: #e2e8f0;
+}
+
+.hover\:bg-gray-700:hover {
+  background-color: #4a5568;
+}
+
+.hover\:bg-green-600:hover {
+  background-color: #48bb78;
+}
+
+.text-body {
+  color: #718096;
+  font-size: 1rem;
+}
+
+.loader {
+  border-top-color: #48bb78;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Assuming you use Tailwind CSS and this is your custom CSS file */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100px;
+  height: 4px;
+  background: #d1d5db;
+  outline: none;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #4a5568;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #4a5568;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

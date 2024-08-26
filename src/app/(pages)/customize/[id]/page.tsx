@@ -6,92 +6,93 @@ import { Menu, MenuItem } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { motion } from "framer-motion"; // Importing framer-motion for animations
+import ZoomControl from "@/components/layouts/ZoomControl";
+import {
+  FiAlignLeft,
+  FiAlignCenter,
+  FiAlignRight,
+  FiBold,
+  FiItalic,
+  FiUnderline,
+  FiShare2,
+  FiPrinter,
+} from "react-icons/fi"; // Importing icons
 
 const CustomizePage = () => {
-  const [font, setFont] = useState("Engry");
-  const [fontSize, setFontSize] = useState(16);
-  const [fontColor, setFontColor] = useState("#000000");
-  const [isBold, setIsBold] = useState(false);
-  const [isItalic, setIsItalic] = useState(false);
-  const [isUnderline, setIsUnderline] = useState(false);
-  const [textAlign, setTextAlign] = useState("center");
+  const [elements, setElements] = useState({
+    text1: {
+      font: "Arial",
+      fontSize: 16,
+      fontColor: "#000000",
+      isBold: false,
+      isItalic: false,
+      isUnderline: false,
+      textAlign: "center",
+    },
+    text2: {
+      font: "Arial",
+      fontSize: 16,
+      fontColor: "#000000",
+      isBold: false,
+      isItalic: false,
+      isUnderline: false,
+      textAlign: "center",
+    },
+  });
+
+  const [selectedTextId, setSelectedTextId] = useState(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
-  const handleFontChange = (event) => {
-    setFont(event.target.value);
-  };
-
-  const handleFontSizeChange = (amount) => {
-    setFontSize((prev) => Math.max(8, prev + amount));
+  const handleStyleChange = (styleKey, value) => {
+    if (!selectedTextId) return;
+    setElements((prevElements) => ({
+      ...prevElements,
+      [selectedTextId]: {
+        ...prevElements[selectedTextId],
+        [styleKey]: value,
+      },
+    }));
   };
 
   const toggleColorPicker = () => {
     setShowColorPicker(!showColorPicker);
   };
 
-  const handleDragStart = () => {
-    setIsDragging(true);
-  };
-
-  const handleDragStop = () => {
-    setIsDragging(false);
-  };
-
-  const toggleBold = () => {
-    setIsBold(!isBold);
-  };
-
-  const toggleItalic = () => {
-    setIsItalic(!isItalic);
-  };
-
-  const toggleUnderline = () => {
-    setIsUnderline(!isUnderline);
-  };
-
-  const handleTextAlign = (align) => {
-    setTextAlign(align);
-  };
-
-  const handleZoomIn = () => {
-    setZoomLevel((prevZoom) => Math.min(prevZoom + 0.1, 2.5));
-  };
-
-  const handleZoomOut = () => {
-    setZoomLevel((prevZoom) => Math.max(prevZoom - 0.1, 1));
-  };
-
   const handleDownloadImage = async () => {
-    const element = document.querySelector(".rnd-container"); // Update to your container class or id
+    setIsLoading(true);
+    const element = document.querySelector(".rnd-container");
     if (!element) return;
 
-    const canvas = await html2canvas(element, {
-      scale: zoomLevel,
-    });
     const dataUrl = canvas.toDataURL("image/png");
     const link = document.createElement("a");
     link.href = dataUrl;
     link.download = "template.png";
     link.click();
+
+    setIsLoading(false);
+    setShowSuccessPopup(true);
   };
 
   const handleDownloadPDF = async () => {
-    const element = document.querySelector(".rnd-container"); // Update to your container class or id
+    setIsLoading(true);
+    const element = document.querySelector(".rnd-container");
     if (!element) return;
 
-    const canvas = await html2canvas(element, {
-      scale: zoomLevel,
-    });
     const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF("p", "mm", "a4");
-    pdf.addImage(imgData, "PNG", 0, 0, 210, 297); // Adjust width and height as needed
+    pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
     pdf.save("template.pdf");
+
+    setIsLoading(false);
+    setShowSuccessPopup(true);
   };
 
   const handlePrint = () => {
-    const element = document.querySelector(".rnd-container"); // Update to your container class or id
+    const element = document.querySelector(".rnd-container");
     if (!element) return;
 
     const newWindow = window.open();
@@ -106,7 +107,7 @@ const CustomizePage = () => {
       navigator
         .share({
           title: "Check out my design!",
-          url: window.location.href, // Assuming you want to share the current page
+          url: window.location.href,
         })
         .then(() => console.log("Successfully shared"))
         .catch((error) => console.log("Error sharing", error));
@@ -115,198 +116,183 @@ const CustomizePage = () => {
     }
   };
 
-  const handleOrderPrints = () => {
-    alert("Order Prints functionality will be implemented here.");
-    // You can redirect to a print order page or implement your order logic here
+  const handleTextClick = (id) => {
+    setSelectedTextId(id);
   };
 
+  const closeSuccessPopup = () => {
+    setShowSuccessPopup(false);
+  };
+
+  const textStyles = (id) => ({
+    fontFamily: elements[id].font,
+    fontSize: `${elements[id].fontSize}px`,
+    color: elements[id].fontColor,
+    fontWeight: elements[id].isBold ? "bold" : "normal",
+    fontStyle: elements[id].isItalic ? "italic" : "normal",
+    textDecoration: elements[id].isUnderline ? "underline" : "none",
+    textAlign: elements[id].textAlign,
+  });
+
   return (
-    <div className="h-screen flex flex-col mt-16">
+    <div className="h-screen flex flex-col mt-16 customize-page">
       {/* Top Toolbar */}
-      <div className="flex justify-between items-center bg-gray-100 px-4 py-2 shadow-md">
+      <div className="flex z-20 sticky top-0 justify-between items-center bg-toolbar px-4 py-2 shadow-md rounded-lg mx-4 mt-4">
         <div className="flex items-center space-x-3">
-          {/* Font Selector */}
           <select
-            value={font}
-            onChange={handleFontChange}
+            value={selectedTextId ? elements[selectedTextId].font : "Arial"}
+            onChange={(e) => handleStyleChange("font", e.target.value)}
             className="p-1 border rounded-md shadow-sm text-sm"
+            disabled={!selectedTextId}
           >
-            <option value="Engry">Engry</option>
             <option value="Arial">Arial</option>
             <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
           </select>
 
-          {/* Font Size Controls */}
           <div className="flex items-center space-x-1">
             <button
-              onClick={() => handleFontSizeChange(-1)}
+              onClick={() =>
+                handleStyleChange(
+                  "fontSize",
+                  elements[selectedTextId].fontSize - 1
+                )
+              }
               className="p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 text-sm"
+              disabled={!selectedTextId}
             >
               -
             </button>
-            <span className="font-semibold text-sm">{fontSize}</span>
+            <span className="font-semibold text-sm">
+              {selectedTextId ? elements[selectedTextId].fontSize : ""}
+            </span>
             <button
-              onClick={() => handleFontSizeChange(1)}
+              onClick={() =>
+                handleStyleChange(
+                  "fontSize",
+                  elements[selectedTextId].fontSize + 1
+                )
+              }
               className="p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 text-sm"
+              disabled={!selectedTextId}
             >
               +
             </button>
           </div>
 
-          {/* Color Picker */}
           <div className="relative">
             <button
               onClick={toggleColorPicker}
               className="p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300"
+              disabled={!selectedTextId}
             >
               <div
                 className="w-4 h-4 rounded-full"
-                style={{ backgroundColor: fontColor }}
+                style={{
+                  backgroundColor: selectedTextId
+                    ? elements[selectedTextId].fontColor
+                    : "#000",
+                }}
               ></div>
             </button>
-            {showColorPicker && (
+            {showColorPicker && selectedTextId && (
               <div className="absolute mt-2 z-50">
                 <SketchPicker
-                  color={fontColor}
-                  onChange={(color) => setFontColor(color.hex)}
+                  color={elements[selectedTextId].fontColor}
+                  onChange={(color) =>
+                    handleStyleChange("fontColor", color.hex)
+                  }
                 />
               </div>
             )}
           </div>
 
-          {/* Bold, Italic, Underline */}
           <div className="flex items-center space-x-1">
             <button
-              className={`p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 font-bold text-sm ${
-                isBold ? "bg-gray-300" : ""
+              className={`p-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 text-sm ${
+                selectedTextId && elements[selectedTextId].isBold
+                  ? "bg-gray-300"
+                  : ""
               }`}
-              onClick={toggleBold}
+              onClick={() =>
+                handleStyleChange("isBold", !elements[selectedTextId].isBold)
+              }
+              disabled={!selectedTextId}
             >
-              B
+              <FiBold />
             </button>
             <button
-              className={`p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 italic text-sm ${
-                isItalic ? "bg-gray-300" : ""
+              className={`p-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 italic text-sm ${
+                selectedTextId && elements[selectedTextId].isItalic
+                  ? "bg-gray-300"
+                  : ""
               }`}
-              onClick={toggleItalic}
+              onClick={() =>
+                handleStyleChange(
+                  "isItalic",
+                  !elements[selectedTextId].isItalic
+                )
+              }
+              disabled={!selectedTextId}
             >
-              I
+              <FiItalic />
             </button>
             <button
-              className={`p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 underline text-sm ${
-                isUnderline ? "bg-gray-300" : ""
+              className={`p-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 underline text-sm ${
+                selectedTextId && elements[selectedTextId].isUnderline
+                  ? "bg-gray-300"
+                  : ""
               }`}
-              onClick={toggleUnderline}
+              onClick={() =>
+                handleStyleChange(
+                  "isUnderline",
+                  !elements[selectedTextId].isUnderline
+                )
+              }
+              disabled={!selectedTextId}
             >
-              U
+              <FiUnderline />
             </button>
           </div>
 
-          {/* Text Alignment */}
           <div className="flex items-center space-x-1">
             <button
-              className={`p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 ${
-                textAlign === "left" ? "bg-gray-300" : ""
+              className={`p-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 ${
+                selectedTextId && elements[selectedTextId].textAlign === "left"
+                  ? "bg-gray-300"
+                  : ""
               }`}
-              onClick={() => handleTextAlign("left")}
+              onClick={() => handleStyleChange("textAlign", "left")}
+              disabled={!selectedTextId}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
+              <FiAlignLeft />
             </button>
             <button
-              className={`p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 ${
-                textAlign === "center" ? "bg-gray-300" : ""
+              className={`p-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 ${
+                selectedTextId &&
+                elements[selectedTextId].textAlign === "center"
+                  ? "bg-gray-300"
+                  : ""
               }`}
-              onClick={() => handleTextAlign("center")}
+              onClick={() => handleStyleChange("textAlign", "center")}
+              disabled={!selectedTextId}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M10 12h10m-10 6h16"
-                />
-              </svg>
+              <FiAlignCenter />
             </button>
             <button
-              className={`p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 ${
-                textAlign === "right" ? "bg-gray-300" : ""
+              className={`p-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 ${
+                selectedTextId && elements[selectedTextId].textAlign === "right"
+                  ? "bg-gray-300"
+                  : ""
               }`}
-              onClick={() => handleTextAlign("right")}
+              onClick={() => handleStyleChange("textAlign", "right")}
+              disabled={!selectedTextId}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h10m-10 6h16"
-                />
-              </svg>
-            </button>
-          </div>
-
-          {/* Undo/Redo */}
-          <div className="flex items-center space-x-1">
-            <button className="p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 5l-7 7 7 7M5 12h14"
-                />
-              </svg>
-            </button>
-            <button className="p-1 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 19l7-7-7-7M19 12H5"
-                />
-              </svg>
+              <FiAlignRight />
             </button>
           </div>
         </div>
 
-        {/* Save Draft and Next Menu */}
         <div className="flex space-x-2">
           <button className="px-3 py-2 bg-green-500 text-white rounded-md shadow-sm hover:bg-green-600 text-sm">
             Save draft
@@ -369,21 +355,7 @@ const CustomizePage = () => {
                 className="flex items-center space-x-2"
                 aria-label="Print"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="25"
-                  fill="none"
-                  className="finish-item-icon"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M7.41 18.13H6.33A3.326 3.326 0 0 1 3 14.81v-4.015a3.33 3.33 0 0 1 3.33-3.32h11.35a3.324 3.324 0 0 1 3.32 3.32v4.015a3.32 3.32 0 0 1-3.32 3.32h-1.053M7.413 15.31v3.77a2.08 2.08 0 0 0 2.08 2.08h5.015a2.08 2.08 0 0 0 2.08-2.08v-3.77m.877 0H6.537m11.124-4.258h-2.12M7.414 7.488V5.92a2.08 2.08 0 0 1 2.08-2.08h5.015a2.08 2.08 0 0 1 2.08 2.08v1.568"
-                  />
-                </svg>
+                <FiPrinter />
                 <span>Print</span>
               </button>
             </MenuItem>
@@ -392,55 +364,17 @@ const CustomizePage = () => {
                 className="flex items-center space-x-2"
                 aria-label="Share"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="25"
-                  fill="none"
-                  className="finish-item-icon"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="m8.93 13.858 6.148 3.583m-.01-9.882L8.93 11.14M17.4 3.5a2.7 2.7 0 1 1 .001 5.399A2.7 2.7 0 0 1 17.4 3.5M6.6 9.8a2.7 2.7 0 1 1 .001 5.398 2.7 2.7 0 0 1 0-5.398m10.8 6.3A2.7 2.7 0 1 1 17.4 21.5 2.7 2.7 0 0 1 17.4 16.1"
-                  />
-                </svg>
+                <FiShare2 />
                 <span>Share</span>
-              </button>
-            </MenuItem>
-            <MenuItem onClick={handleOrderPrints}>
-              <button
-                className="flex items-center space-x-2"
-                aria-label="Order prints"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="25"
-                  fill="none"
-                  className="finish-item-icon"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="m11.007 20.6 5.41-.003c2.737.007 4.583-2.241 4.583-5.006v-6.18c0-2.764-1.846-5.015-4.583-5.015H7.582C4.845 4.396 3 6.647 3 9.41v1.681m3.688-1.429 3.998 3.252c.754.598 1.82.598 2.574 0l4.033-3.252M3 14.634h3.473m-1.078 2.984H9.74m-6.45 2.985 3.17-.001"
-                  />
-                </svg>
-                <span>Order Prints</span>
               </button>
             </MenuItem>
           </Menu>
         </div>
       </div>
-
       {/* Content Area */}
-      <div className="flex flex-1 justify-center items-center bg-white p-4">
+      <div className="flex flex-1 justify-center items-center bg-page-background p-4">
         <div
-          className="rnd-container relative w-full h-full max-w-2xl max-h-2xl shadow-lg border border-gray-300 rounded-md overflow-hidden"
+          className="rnd-container relative w-full h-full z-10 max-w-2xl max-h-2xl shadow-lg border border-gray-300 rounded-md overflow-hidden bg-white"
           style={{ transform: `scale(${zoomLevel})` }}
         >
           <Rnd
@@ -451,76 +385,138 @@ const CustomizePage = () => {
               height: 200,
             }}
             bounds="parent"
-            onDragStart={handleDragStart}
-            onDragStop={handleDragStop}
-            onResizeStart={handleDragStart}
-            onResizeStop={handleDragStop}
+            onClick={() => handleTextClick("text1")}
             style={{
-              zIndex: isDragging ? 1000 : 1,
+              zIndex: selectedTextId === "text1" ? 1000 : 1,
+              border: selectedTextId === "text1" ? "1px dotted gray" : "none",
             }}
           >
-            <div
+            <motion.div
               className="flex justify-center items-center w-full h-full"
-              style={{
-                fontFamily: font,
-                fontSize: `${fontSize}px`,
-                color: fontColor,
-                fontWeight: isBold ? "bold" : "normal",
-                fontStyle: isItalic ? "italic" : "normal",
-                textDecoration: isUnderline ? "underline" : "none",
-                textAlign: textAlign,
-              }}
+              style={textStyles("text1")}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
             >
               YOU ARE CORDIALLY INVITED
-            </div>
+            </motion.div>
+          </Rnd>
+
+          <Rnd
+            default={{
+              x: 50,
+              y: 150,
+              width: 300,
+              height: 200,
+            }}
+            bounds="parent"
+            onClick={() => handleTextClick("text2")}
+            style={{
+              zIndex: selectedTextId === "text2" ? 1000 : 1,
+              border: selectedTextId === "text2" ? "1px dotted gray" : "none",
+            }}
+          >
+            <motion.div
+              className="flex justify-center items-center w-full h-full"
+              style={textStyles("text2")}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              YOU ARE CORDIALLY INVITED
+            </motion.div>
           </Rnd>
         </div>
       </div>
 
+      {/* Loader */}
+      {isLoading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
+          <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16 border-t-green-500 animate-spin"></div>
+        </div>
+      )}
+
+      {/* Success Popup */}
+      {showSuccessPopup && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50"
+          style={{ zIndex: 501 }}
+        >
+          <div className="modal-content bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+            <div className="header flex justify-end">
+              <button
+                className="modal-close-button gi-icon-button small btn-icon-neutral"
+                onClick={closeSuccessPopup}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="icon"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    d="m6 6.4 12 12m0-12-12 12"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div
+              className="panel-success-message text-center"
+              data-testid="panel-success-message"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="73"
+                height="72"
+                fill="none"
+                className="mt-3 justify-center items-center mx-auto"
+              >
+                <path
+                  stroke="#1BC47D"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="3"
+                  d="M13.134 19.966c0-4.05 3.28-7.33 7.33-7.333H23.8a7.34 7.34 0 0 0 5.164-2.13l2.33-2.334a7.335 7.335 0 0 1 10.371-.032l.003.003.03.026 2.334 2.334a7.32 7.32 0 0 0 5.164 2.13h3.342a7.334 7.334 0 0 1 7.333 7.333v3.332c0 1.939.765 3.793 2.13 5.168l2.334 2.334a7.336 7.336 0 0 1 .036 10.37l-2.367 2.367a7.32 7.32 0 0 0-2.13 5.161v3.345a7.33 7.33 0 0 1-7.336 7.32H49.19a7.32 7.32 0 0 0-5.164 2.134l-2.334 2.33a7.33 7.33 0 0 1-10.364.046l-.01-.007M20.464 59.37a7.33 7.33 0 0 1-7.33-7.33v-3.352c0-1.935-.768-3.79-2.133-5.16l-2.33-2.335a7.327 7.327 0 0 1-.05-10.36s.01-.007.013-.013l2.36-2.364a7.33 7.33 0 0 0 2.134-5.167v-3.323"
+                ></path>
+                <path
+                  stroke="#1BC47D"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="3"
+                  d="m26.512 36.406 6.59 6.6L46.68 29.423"
+                ></path>
+              </svg>
+              <h3 className="title mt-4 text-2xl font-semibold">Nice work!</h3>
+              <h3 className="title mt-4 text-2xl font-semibold">
+                Your design is saved!
+              </h3>
+              <div className="description text-body mt-2">
+                Download should start automatically. If it does not,{" "}
+                <button
+                  className="link-no-underline text-green-600"
+                  onClick={handleDownloadImage}
+                >
+                  download again
+                </button>
+              </div>
+              <button
+                className="w-full mt-6 bg-green-500 text-white rounded-md py-2 hover:bg-green-600"
+                aria-label="Back"
+                onClick={closeSuccessPopup}
+              >
+                Back to design
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Zoom Controls */}
-      <div className="fixed bottom-5 right-5 flex items-center space-x-3">
-        <button
-          onClick={handleZoomOut}
-          className="p-2 bg-gray-800 text-white rounded-full hover:bg-gray-700"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="21"
-            height="21"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              d="M8 12h8M12 2v20"
-            />
-          </svg>
-        </button>
-        <span className="text-lg font-bold text-gray-800">{zoomLevel}x</span>
-        <button
-          onClick={handleZoomIn}
-          className="p-2 bg-gray-800 text-white rounded-full hover:bg-gray-700"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="21"
-            height="21"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              d="M12 8v8m-4-4h8"
-            />
-          </svg>
-        </button>
-      </div>
+      <ZoomControl zoomLevel={zoomLevel} onZoomChange={setZoomLevel} />
     </div>
   );
 };

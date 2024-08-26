@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="footer bg-dark-footer relative text-gray-200 dark:text-gray-200">
+    <footer className="footer z-40 bg-dark-footer relative text-gray-200 dark:text-gray-200">
       <div className="container relative mx-auto">
         <div className="grid grid-cols-12">
           <div className="col-span-12">

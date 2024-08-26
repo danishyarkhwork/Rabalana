@@ -36,7 +36,7 @@ const Header: React.FC = () => {
 
   return (
     <nav id="topnav" className={`defaultscroll is-sticky home-page`}>
-      <div className="container relative mx-auto">
+      <div className="container relative mx-auto z-40 bg-slate-50">
         <Link href="/" className="logo ps-0">
           <Image
             src="/assets/images/logo-icon-30.png"
