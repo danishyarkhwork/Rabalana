@@ -1,7 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { FiZoomIn, FiZoomOut } from "react-icons/fi";
 
-const ZoomControl = ({ zoomLevel, onZoomChange }) => {
+// Define the props type
+type ZoomControlProps = {
+  zoomLevel: number;
+  onZoomChange: (newZoomLevel: number) => void;
+};
+
+// Apply the props type to the component
+const ZoomControl: React.FC<ZoomControlProps> = ({
+  zoomLevel,
+  onZoomChange,
+}) => {
   const handleZoomIn = () => {
     onZoomChange(Math.min(zoomLevel + 0.1, 2.5));
   };
